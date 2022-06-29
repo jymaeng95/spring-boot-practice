@@ -58,10 +58,12 @@ public class RestTemplateController {
     }
 
     @PutMapping("/{name}/{age}")
-    public ResponseEntity<Void> put(@PathVariable("name") String name, @PathVariable("age") Integer age) {
+    public ResponseEntity<Void> put(@PathVariable("name") String name, @PathVariable("age") Integer age,
+                                    @RequestBody Person person) {
         log.info("Put Method Request");
         log.info("Path Name : {}", name);
         log.info("Path age : {}", age);
+        log.info("Request Body : {}", person);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

@@ -135,22 +135,6 @@ class RestTemplateServiceTest {
         assertThat(createdPerson.getInterest().size()).isEqualTo(3);
     }
 
-
-    @Test
-    void headForHeaders() {
-        // given
-        String url = "http://localhost:8080/resttemplate/search";
-
-        // when
-        // 8.
-        HttpHeaders httpHeaders = restTemplate.headForHeaders(url);
-        log.info("Headers : {}", httpHeaders);
-
-        // then
-        assertThat(httpHeaders.getContentType()).isNotNull();
-        assertThat(httpHeaders.getContentType().includes(MediaType.APPLICATION_JSON)).isTrue();
-    }
-
     @Test
     void delete() {
         // given
@@ -168,14 +152,70 @@ class RestTemplateServiceTest {
     void put() {
         // given
         String url = "http://localhost:8080/resttemplate/{name}/{age}";
+        Person person = createPerson();
+
         Map<String, String> params = new HashMap<>();
         params.put("name", "zayson");
         params.put("age", "28");
 
         // when
         // 7. put : PUT 메소드를 요청한다.
-        restTemplate.put(url, params);
+        restTemplate.put(url, person, params);
     }
+
+    @Test
+    void headForHeaders() {
+        // given
+        String url = "http://localhost:8080/resttemplate/search";
+
+        // when
+        // 8. headForHeaders : HEAD 메서드를 이용해 해당 URL이 포함한 헤더 정보를 반환한다.
+        HttpHeaders httpHeaders = restTemplate.headForHeaders(url);
+        log.info("Headers : {}", httpHeaders);
+
+        // then
+        assertThat(httpHeaders.getContentType()).isNotNull();
+        assertThat(httpHeaders.getContentType().includes(MediaType.APPLICATION_JSON)).isTrue();
+    }
+
+    @Test
+    void exchange_GET() {
+        // given
+        String url = "http://localhost:8080/resttemplate/search";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> reqeust = new HttpEntity<>(headers);
+
+        // when
+        // 9. exchange : 모든 HTTP 메서드로 요청하는 것이 가능하다. (GET 방식, String 타입으로 받기)
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, reqeust, String.class);
+        log.info("response : {}", response);
+        log.info("statusCode : {}", response.getStatusCode());
+
+        // then
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    void exchange_POST() {
+        // given
+        String url = "http://localhost:8080/resttemplate/new";
+        Person person = createPerson();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Person> request = new HttpEntity<>(person, headers);
+
+        // when
+        // POST 방식 객체 타입으로 반환 받기
+        ResponseEntity<Person> response = restTemplate.exchange(url, HttpMethod.POST, request, Person.class);
+        log.info("response : {}", response);
+        log.info("statusCode : {}", response.getStatusCode());
+
+        // then
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+    }
+
 
     private Person createPerson() {
         return Person.builder().name("zayson")
