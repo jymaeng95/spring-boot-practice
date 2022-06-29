@@ -47,4 +47,22 @@ public class RestTemplateController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(person);
     }
+
+    @DeleteMapping(value = "/{name}/{age}")
+    public ResponseEntity<Void> delete(@PathVariable("name") String name, @PathVariable("age") Integer age) {
+        log.info("Delete Method Request");
+        log.info("Path Name : {}", name);
+        log.info("Path age : {}", age);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PutMapping("/{name}/{age}")
+    public ResponseEntity<Void> put(@PathVariable("name") String name, @PathVariable("age") Integer age) {
+        log.info("Put Method Request");
+        log.info("Path Name : {}", name);
+        log.info("Path age : {}", age);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

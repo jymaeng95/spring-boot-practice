@@ -20,7 +20,9 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -140,7 +142,7 @@ class RestTemplateServiceTest {
         String url = "http://localhost:8080/resttemplate/search";
 
         // when
-        //
+        // 8.
         HttpHeaders httpHeaders = restTemplate.headForHeaders(url);
         log.info("Headers : {}", httpHeaders);
 
@@ -152,10 +154,10 @@ class RestTemplateServiceTest {
     @Test
     void delete() {
         // given
-        String url = "http://localhost:8080/resttemplate";
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("name", "zayson");
-        params.add("age", "28");
+        String url = "http://localhost:8080/resttemplate/{name}/{age}";
+        Map<String, String> params = new HashMap<>();
+        params.put("name", "zayson");
+        params.put("age", "28");
 
         // when
         // 6. delete : DELETE 메서드를 이용해 해당 URL에 요청한다.
@@ -165,10 +167,10 @@ class RestTemplateServiceTest {
     @Test
     void put() {
         // given
-        String url = "http://localhost:8080/resttemplate";
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("name", "zayson");
-        params.add("age", "28");
+        String url = "http://localhost:8080/resttemplate/{name}/{age}";
+        Map<String, String> params = new HashMap<>();
+        params.put("name", "zayson");
+        params.put("age", "28");
 
         // when
         // 7. put : PUT 메소드를 요청한다.
