@@ -10,6 +10,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 @RestController
 @RequestMapping("/resttemplate")
@@ -66,5 +67,20 @@ public class RestTemplateController {
         log.info("Request Body : {}", person);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping("/timeout")
+    public ResponseEntity<Person> timeout() throws InterruptedException {
+        log.info("Timeout Test");
+        Person person = Person.builder()
+                .name("zayson")
+                .age(28)
+                .interest(List.of("Coding", "Soccer", "Develop"))
+                .build();
+
+        // 타임아웃 발생!!
+        Thread.sleep(5000);
+
+        return ResponseEntity.ok(person);
     }
 }

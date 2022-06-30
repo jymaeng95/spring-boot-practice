@@ -4,6 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spring.practice.resttemplate.web.dto.Person;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,16 +16,23 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.*;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RequestCallback;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -216,6 +226,79 @@ class RestTemplateServiceTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
     }
 
+    @Test
+    void optionsForAllow() {
+        // given
+        String url = "http://localhost:8080/resttemplate/{name}/{age}";
+        Map<String, String> params = new HashMap<>();
+        params.put("name", "zayson");
+        params.put("age", "28");
+
+        // when
+        // 11. OPTIONS OPTIONS 메서드를 이용해 URL이 지원하는 HTTP METHOD를 반환받는다.
+        Set<HttpMethod> httpMethods = restTemplate.optionsForAllow(url, params);
+        log.info("response : {}", httpMethods);
+
+        // then
+        assertThat(httpMethods.containsAll(List.of(HttpMethod.PUT, HttpMethod.DELETE))).isTrue();
+    }
+
+    @Test
+    void exectue() throws JsonProcessingException {
+        // given
+        String url = "http://localhost:8080/resttemplate/search";
+
+        // Request Callback
+        RequestCallback requestCallback = request -> {
+            request.getHeaders().set("id", "manager");
+            log.info("Request Callback : {}", request.getHeaders());
+        };
+
+        // Response Callback
+        ResponseExtractor<Person> responseExtractor = response -> {
+            Person person = objectMapper.readValue(response.getBody(), Person.class);
+
+            log.info("Status Code : {}",response.getStatusCode());
+            log.info("Response Body : {}", person.toString());
+
+            return person;
+        };
+
+        // when
+        // 11. execute : 모든 HTTP 메서드를 사용할 수 있고, request Callback과 Response Extractor를 이용해 요청 후 로직과 응답 후 로직을 사용자가 컨트롤 할 수 있다.
+        Person person = restTemplate.execute(url, HttpMethod.GET, requestCallback, responseExtractor);
+
+        // then
+        assertThat(person).isNotNull();
+        assertThat(person.getName()).isEqualTo("zayson");
+        assertThat(person.getAge()).isEqualTo(28);
+        assertThat(person.getInterest().size()).isEqualTo(3);
+    }
+
+    @Test
+    void timeout() {
+        // given
+        RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
+        String url = "http://localhost:8080/resttemplate/timeout";
+
+        // then
+        assertThrows(ResourceAccessException.class, () -> restTemplate.getForObject(url, String.class));
+    }
+
+    private ClientHttpRequestFactory getClientHttpRequestFactory() {
+        int timeout = 1000;
+
+        RequestConfig config = RequestConfig.custom()
+                .setConnectTimeout(timeout)
+                .setConnectionRequestTimeout(timeout)
+                .setSocketTimeout(timeout)
+                .build();
+        CloseableHttpClient client = HttpClientBuilder
+                .create()
+                .setDefaultRequestConfig(config)
+                .build();
+        return new HttpComponentsClientHttpRequestFactory(client);
+    }
 
     private Person createPerson() {
         return Person.builder().name("zayson")
