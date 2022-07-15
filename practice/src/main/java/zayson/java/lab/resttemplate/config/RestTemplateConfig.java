@@ -1,4 +1,4 @@
-package com.spring.practice.resttemplate.web.config;
+package zayson.java.lab.resttemplate.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

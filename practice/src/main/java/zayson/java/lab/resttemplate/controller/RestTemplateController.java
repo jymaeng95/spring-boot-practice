@@ -1,6 +1,6 @@
-package com.spring.practice.resttemplate.web.controller;
+package zayson.java.lab.resttemplate.controller;
 
-import com.spring.practice.resttemplate.web.dto.Person;
+import zayson.java.lab.resttemplate.dto.Person;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -10,7 +10,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.concurrent.TimeoutException;
 
 @RestController
 @RequestMapping("/resttemplate")

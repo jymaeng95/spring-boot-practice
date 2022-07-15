@@ -1,4 +1,4 @@
-package com.spring.practice.resttemplate.web.dto;
+package zayson.java.lab.resttemplate.dto;
 
 import lombok.Builder;
 import lombok.Getter;

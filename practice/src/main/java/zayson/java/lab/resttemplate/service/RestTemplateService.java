@@ -1,6 +1,6 @@
-package com.spring.practice.resttemplate.web.service;
+package zayson.java.lab.resttemplate.service;
 
-import com.spring.practice.resttemplate.web.dto.CommonSuccessResponse;
+import zayson.java.lab.resttemplate.dto.CommonSuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
