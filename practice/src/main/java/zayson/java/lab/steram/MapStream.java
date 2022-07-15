@@ -1,4 +1,4 @@
-package com.spring.practice.steram;
+package zayson.java.lab.steram;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
