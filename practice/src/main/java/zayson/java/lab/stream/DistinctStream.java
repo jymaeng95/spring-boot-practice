@@ -1,12 +1,10 @@
-package zayson.java.lab.steram;
+package zayson.java.lab.stream;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class DistinctStream {
     @Data

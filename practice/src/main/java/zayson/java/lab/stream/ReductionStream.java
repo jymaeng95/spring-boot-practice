@@ -1,11 +1,9 @@
-package zayson.java.lab.steram;
+package zayson.java.lab.stream;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.OptionalInt;
 
 public class ReductionStream {
     @Data

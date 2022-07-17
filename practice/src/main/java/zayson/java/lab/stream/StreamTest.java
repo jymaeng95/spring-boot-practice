@@ -1,4 +1,4 @@
-package zayson.java.lab.steram;
+package zayson.java.lab.stream;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

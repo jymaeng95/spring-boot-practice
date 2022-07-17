@@ -1,7 +1,6 @@
-package zayson.java.lab.steram;
+package zayson.java.lab.stream;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
