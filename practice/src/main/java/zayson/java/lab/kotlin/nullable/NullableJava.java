@@ -1,6 +1,6 @@
 package zayson.java.lab.kotlin.nullable;
 
-public class Nullable_Java {
+public class NullableJava {
     public static void main(String[] args) {
         checkNull1(null);
         checkNull2(null);

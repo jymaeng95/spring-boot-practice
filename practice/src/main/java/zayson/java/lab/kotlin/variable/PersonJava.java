@@ -1,9 +1,9 @@
 package zayson.java.lab.kotlin.variable;
 
-public class Person_Java {
+public class PersonJava {
     private String name;
 
-    public Person_Java(String name) {
+    public PersonJava(String name) {
         this.name = name;
     }
 }

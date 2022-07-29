@@ -1,6 +1,6 @@
 package zayson.java.lab.kotlin
 
-import zayson.java.lab.kotlin.variable.Person_Java
+import zayson.java.lab.kotlin.variable.PersonJava
 
 fun main() {
     var number1 = 10L   //Variable (가변 변수)
@@ -26,5 +26,5 @@ fun main() {
     number7 = null
 
     // 객체 인스턴스화
-    var person = Person_Java("zayson")   // new를 사용하지 않음
+    var person = PersonJava("zayson")   // new를 사용하지 않음
 }

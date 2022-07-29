@@ -12,6 +12,7 @@ fun main() {
 
     println(checkNullFourthKotlin("!23"))
 
+
     val person = Person(null)
     // Nullable 메서드 때문에 에러가 날수 잇음
     // Java 코드를 가져와 사용하는 경우 코틀린이 자바 코드를 이해 -> null값 이므로 못쓰게함

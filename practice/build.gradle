@@ -25,8 +25,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
 	// https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
-
 	implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
