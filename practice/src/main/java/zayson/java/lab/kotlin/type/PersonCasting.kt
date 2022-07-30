@@ -6,15 +6,19 @@ fun main() {
 }
 
 fun printAgeIfPerson(obj: Any) {
+    //
     if(obj is PersonJava) {
+        // as : Java의 객체 캐스팅
         val person = obj as PersonJava
         print(person.age)
     }
 }
 
 fun printAgeIfNotPerson(obj: Any) {
+    // 인스턴스가 아닌 경우
     if(obj !is PersonJava) {
         print(obj)
+
     }
 }
 
