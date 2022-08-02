@@ -1,4 +1,4 @@
-package zayson.java.lab.kotlin
+package zayson.java.lab.kotlin.variable
 
 import zayson.java.lab.kotlin.variable.PersonJava
 
