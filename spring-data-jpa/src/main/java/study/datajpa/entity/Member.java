@@ -11,6 +11,10 @@ import static javax.persistence.FetchType.*;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // JPA의 표준 스펙에서 Default 생성자가 있어야한다. AccessLevel을 Protected까지 열어놔야한다.
 @ToString(of = {"id","username","age"})     // 연관관계까지 출력하는 경우 연관관계를 타고 들어가서 확인하기 때문에 무한루프가 발생할 수 있다.
+@NamedQuery(
+        name="Member.findByUsername",
+        query="select m from Member m where m.username = :username"
+)
 public class Member {
     @Id
     @GeneratedValue
@@ -34,6 +38,11 @@ public class Member {
         if(team != null) {
             changeTeam(team);
         }
+    }
+
+    public Member(String username, int age) {
+        this.username = username;
+        this.age = age;
     }
 
     // 연관관계 편읨 메서드
