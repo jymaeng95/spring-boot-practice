@@ -4,12 +4,18 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import study.datajpa.dto.MemberDto;
 import study.datajpa.entity.Member;
 import study.datajpa.entity.Team;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +31,8 @@ class MemberRepositoryTest {
     MemberRepository memberRepository;
     @Autowired
     TeamRepository teamRepository;
+    @PersistenceContext
+    EntityManager em;
 
     @Test
     public void testMember() {
@@ -165,7 +173,91 @@ class MemberRepositoryTest {
         List<Member> members = memberRepository.findListByUsername("member");
         Member member = memberRepository.findMemberByUsername("member");
         Optional<Member> findMember = memberRepository.findOptionalByUsername("member");
+    }
+
+    @Test
+    public void paging() {
+        memberRepository.save(new Member("member1", 10));
+        memberRepository.save(new Member("member2", 10));
+        memberRepository.save(new Member("member3", 10));
+        memberRepository.save(new Member("member4", 10));
+        memberRepository.save(new Member("member5", 10));
+
+        // 0 페이지에서 3개 가져오기
+        int age = 10;
+        PageRequest pageRequest = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "username"));
+
+        //when
+        Page<Member> page = memberRepository.findByAge(age, pageRequest);
+//        Slice<Member> page = memberRepository.findByAge(age, pageRequest);
+        page.map(member -> new MemberDto(member.getId(), member.getUsername(), null));
+        // then
+        List<Member> content = page.getContent();
+        long totalElements = page.getTotalElements();
+
+        assertThat(content.size()).isEqualTo(3);    // 현재 페이지 데이터 개수
+        assertThat(page.getTotalElements()).isEqualTo(5);   // totalCount
+        assertThat(page.getNumber()).isEqualTo(0);  // 가져온 페이지 번호
+        assertThat(page.getTotalPages()).isEqualTo(2);  // 전체 페이지 개수
+        assertThat(page.isFirst()).isTrue();    // 첫번째 페이지인지?
+        assertThat(page.hasNext()).isTrue();    // 다음 페이지가 있는지?
+        assertThat(page.isLast()).isFalse();    // 마지막 페이지인지?
+    }
+
+    @Test
+    public void bulkUpdate() {
+        memberRepository.save(new Member("member1", 10));
+        memberRepository.save(new Member("member2", 19));
+        memberRepository.save(new Member("member3", 20));
+        memberRepository.save(new Member("member4", 21));
+        memberRepository.save(new Member("member5", 40));
+
+        // when
+        int resultCount = memberRepository.bulkAgePlus(20);
+
+        // 영속성 컨텍스트에 반영안된 것을 반영하고 초기화한다.
+//        em.flush();
+//        em.clear();
+
+        // 영속성 컨텍스트에는 40 , DB에는 41 -> 영속성 컨텍스트가 초기화 안되었으므로 40으로 출력됨
+        List<Member> result = memberRepository.findByUsername("member5");
+        Member member = result.get(0);
+        System.out.println("member = " + member);
 
 
+
+        // then
+        assertThat(resultCount).isEqualTo(3);
+    }
+
+    @Test
+    public void findMemberLazy() {
+        // given ]
+        // member 1 -> teamA
+        // member2 -> teamB
+
+        Team teamA = new Team("teamA");
+        Team teamB = new Team("TeamB");
+        teamRepository.save(teamA);
+        teamRepository.save(teamB);
+
+        Member member1 = new Member("member1", 10, teamA);
+        Member member2 = new Member("member2", 10, teamB);
+
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+
+        em.flush();
+        em.clear();
+
+        // when
+        List<Member> members = memberRepository.findAll();
+        for (Member member : members) {
+            System.out.println("member = " + member);
+
+            // N + 1 문제 발생
+            System.out.println("member.getTeam().getClass() = " + member.getTeam().getClass()); // 프록시 객체로 가져옴
+            System.out.println("member.getTeam().getName() = " + member.getTeam().getName());  // 실제 객체가져옴
+        }
     }
 }
