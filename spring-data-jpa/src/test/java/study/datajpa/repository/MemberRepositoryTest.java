@@ -260,4 +260,43 @@ class MemberRepositoryTest {
             System.out.println("member.getTeam().getName() = " + member.getTeam().getName());  // 실제 객체가져옴
         }
     }
+
+    @Test
+    public void queryHint() {
+        Member member = memberRepository.save(new Member("member1", 10));
+
+        em.flush();
+        em.clear();
+
+        // when
+//        Member findMember = memberRepository.findById(member.getId()).get();
+//        findMember.setUsername("member2");  // 변경감지 동작
+
+        // hint에서 readOnly로 가져오기 때문에 변경감지가 일어나지 않는다. 원본 데이터의 스냅샷이 없다.
+        Member findMember = memberRepository.findReadOnlyByUsername("member1");
+        findMember.setUsername("member2");
+
+        em.flush();
+
+        // 최적화가 되어있더라도
+    }
+
+    @Test
+    public void lock() {
+        Member member = memberRepository.save(new Member("member1", 10));
+
+        em.flush();
+        em.clear();
+
+        List<Member> result = memberRepository.findLockByUsername("member1");
+
+        em.flush();
+
+        // 최적화가 되어있더라도
+    }
+
+    @Test
+    public void callCustom() {
+        List<Member> result = memberRepository.findMemberCustom();
+    }
 }
