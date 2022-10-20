@@ -14,6 +14,7 @@ import zayson.java.lab.optional.model.Person;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -164,6 +165,63 @@ public class OptionalTest {
         assertThrows(CustomNotFoundException.class, () -> optionalPerson.orElseThrow(() -> new CustomNotFoundException("error msg")));
     }
 
+    @Test
+    @DisplayName("Optional.map")
+    void map() {
+        Person person = new Person("maeng", 30, new Address("seoul", "woosung", "street"));
+
+        String city = Optional.ofNullable(person)
+                .map(Person::getAddress)
+                .map(Address::getCity)
+                .orElseGet(() -> "bundang");
+
+        assertThat(city).isEqualTo("seoul");
+    }
+
+    @Test
+    @DisplayName("Optional.filter")
+    void filter() {
+        Person person = new Person("maeng", 30, new Address("seoul", "woosung", "street"));
+
+        String name = Optional.ofNullable(person)
+                .filter(p -> p.getAge() > 28)
+                .map(Person::getName)
+                .orElseGet(() -> "zayson");
+
+        assertThat(name).isEqualTo("maeng");
+        assertThat(
+                Optional.ofNullable(person).filter(p -> p.getAge() > 30)
+        ).isEqualTo(Optional.empty());   // 30살 초과인경우 filter -> false
+    }
+
+    @Test
+    @DisplayName("Optional.isPresent")
+    void ifPresent() {
+        Person person = new Person("maeng", 30, new Address("seoul", "woosung", "street"));
+
+        boolean present = Optional.ofNullable(person).isPresent();
+
+        assertTrue(present);
+    }
+
+    @Test
+    @DisplayName("Optional.ifPresentOrElse")
+    void ifPResentOrElse() {
+        // 존재하는 경우
+        Person person = new Person("maeng", 30, new Address("seoul", "woosung", "street"));
+        Optional.ofNullable(person)
+                .ifPresentOrElse(
+                        p -> assertThat(p.getName()).isEqualTo("maeng"),
+                        () -> System.out.println("수행되지 않는 경우!")
+                );
+
+        person = null;
+        Optional.ofNullable(person)
+                .ifPresentOrElse(
+                        p -> assertThat(p.getName()).isEqualTo("maeng"),
+                        () -> System.out.println("=============로직이 수행된다 ===============")
+                );
+    }
 
     private static boolean call;
 
