@@ -41,4 +41,8 @@ public class Space {
 
         throw new IllegalStateException("존재하지 않는 공간입니다.");
     }
+
+    public static Space from(String city, String street, int floor) {
+        return new Space(city, street, floor);
+    }
 }
