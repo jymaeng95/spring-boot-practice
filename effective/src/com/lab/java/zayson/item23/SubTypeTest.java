@@ -1,7 +1,10 @@
 package com.lab.java.zayson.item23;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.*;
 
 public class SubTypeTest {
     @Test
@@ -13,10 +16,11 @@ public class SubTypeTest {
         // Circle 정의
         Figure circle = new Figure(3.0);
 
-        System.out.println("square.area() = " + square.area());
-        System.out.println("circle.area() = " + circle.area());
+        // Figure V2
+        FigureV2 square2 = new Square(1.0, 3.0);
+        FigureV2 circle2 = new Circle(3.0);
 
-        square.print();
-        circle.print();
+        assertThat(square.area()).isEqualTo(square2.area());
+        assertThat(circle.area()).isEqualTo(circle2.area());
     }
 }
