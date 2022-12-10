@@ -37,9 +37,4 @@ public class Figure {
                 throw new AssertionError(shape);
         }
     }
-
-    // 두 타입 모두 공통적으로 호출하는 메서드 정의
-    public void print() {
-        System.out.println("모양 : "+shape);
-    }
 }
