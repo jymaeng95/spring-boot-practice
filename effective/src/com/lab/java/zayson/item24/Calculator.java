@@ -1,5 +1,9 @@
 package com.lab.java.zayson.item24;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 public class Calculator {
     private final int MOD = 100;
     private final String calcName = "Zayson's Calculator";
@@ -34,5 +38,20 @@ public class Calculator {
     public int privateResult(int x) {
         PrivateCalculator privateCalculator = new PrivateCalculator();
         return privateCalculator.calculateMod(x);
+    }
+
+    public void printSort(List<Integer> list) {
+        // 익명 클래스 사용
+        Collections.sort(list, new Comparator<>() {
+                    @Override
+                    public int compare(Integer o1, Integer o2) {
+                        return Integer.compare(o1, o2);
+                    }
+                }
+        );
+
+        // 람다 사용
+        Collections.sort(list, Comparator.comparingInt(o -> o));
+        list.forEach(System.out::println);
     }
 }
