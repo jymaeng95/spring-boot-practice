@@ -32,4 +32,30 @@ public class CustomStackTest {
         stack.pushAllV2(integerList);
         assertThat(stack.size()).isEqualTo(5);
     }
+
+    @Test
+    @DisplayName("와일드카드 타입을 사용하지 않은 popAll")
+    void 와일드카드타입_X_popAll() {
+        CustomStack<Number> stack = new CustomStack<>();
+
+        List<Integer> integerList = List.of(1, 2, 3, 4, 5);
+        stack.pushAllV2(integerList);
+
+        List<Object> objects = new ArrayList<>();
+//        stack.popAllV1(objects); // 컴파일 에러 발생, Collection<Object>는 Collection<Number>의 하위타입이 아니기 때문
+    }
+
+    @Test
+    @DisplayName("와일드카드 타입을 사용한 popAll")
+    void 와일드카드타입을_사용한_popAll() {
+        CustomStack<Number> stack = new CustomStack<>();
+
+        List<Integer> integerList = List.of(1, 2, 3, 4, 5);
+        stack.pushAllV2(integerList);
+
+        List<Object> objects = new ArrayList<>();
+        stack.popAllV2(objects);
+
+        assertThat(objects.size()).isEqualTo(5);
+    }
 }
