@@ -35,6 +35,6 @@ public class FunctionalInterfaceTest {
 
         // 6. Consumer
         Consumer<String> consumer = System.out::println;
-        consumer.accept("consume my string String -> void ");
+        consumer.accept("consume my string String -> void '");
     }
 }
