@@ -12,4 +12,8 @@ fun main() {
 
     println(money1 == money2)
     println(money1 === money2)
+
+    val money4 = Money(1000)
+    val money5 = Money(2000)
+    println(money4 + money5)
 }
