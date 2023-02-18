@@ -33,7 +33,4 @@ public class OptionalTest {
         // 기본값을 값이 처음 필요한 경우에 설정하는 것
         String result = max.orElseGet(() -> "Supplier Method Length");
     }
-//
-//    @Test
-//    @DisplayName("")
 }
