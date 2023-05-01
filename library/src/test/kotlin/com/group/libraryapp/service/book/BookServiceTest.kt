@@ -1,6 +1,6 @@
 package com.group.libraryapp.service.book
 
-import com.group.libraryapp.domain.book.JavaBook
+import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.book.BookRepository
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import java.lang.IllegalArgumentException
 
 @SpringBootTest
 class BookServiceTest @Autowired constructor(
@@ -47,7 +46,7 @@ class BookServiceTest @Autowired constructor(
     @Test
     fun `책 대여 성공 테스트 `() {
         // given
-        bookRepository.save(JavaBook("코틀린 인 액션"))
+        bookRepository.save(Book("코틀린 인 액션"))
         val savedUser = userRepository.save(User("zayson", 29))
         val request = BookLoanRequest("zayson", "코틀린 인 액션")
 
@@ -64,7 +63,7 @@ class BookServiceTest @Autowired constructor(
     @Test
     fun `책이 이미 대여된 경우 테스트가 실패한다`() {
         // given
-        bookRepository.save(JavaBook("코틀린 인 액션"))
+        bookRepository.save(Book("코틀린 인 액션"))
         val savedUser = userRepository.save(User("zayson", 29))
         userLoanHistoryRepository.save(UserLoanHistory(savedUser, "코틀린 인 액션", false))
         val request = BookLoanRequest("zayson", "코틀린 인 액션")
