@@ -2,6 +2,7 @@ package com.group.libraryapp.domain.user;
 
 import com.group.libraryapp.domain.book.Book;
 import com.group.libraryapp.domain.user.loanhistory.UserLoanHistory;
+import org.jetbrains.annotations.Nullable;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -56,6 +57,7 @@ public class User {
     return name;
   }
 
+  @Nullable // Kotlin이 호출할 때 Integer가 Nullable, NotNull을 판단 못하므로 명시해줌
   public Integer getAge() {
     return age;
   }
