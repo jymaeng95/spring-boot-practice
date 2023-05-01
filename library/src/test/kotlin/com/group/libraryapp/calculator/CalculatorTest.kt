@@ -1,6 +1,4 @@
-package com.group.libraryapp
-
-import com.group.libraryapp.calculator.Calculator
+package com.group.libraryapp.calculator
 
 /**
  * 사칙연산에 대한 수동으로 만든 테스트코드
