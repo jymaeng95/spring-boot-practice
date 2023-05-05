@@ -11,7 +11,7 @@ import javax.persistence.OneToMany
 
 @Entity
 class User(
-    var name: String,
+    var name: String, // public이므로 setter가 열릴 수 있음 1) private 선언후 Custom Getter 2) name 파라미터 받고 setter를 private 하게 바디에서 프로퍼티 생성
     val age: Int?,
     @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
     val userLoanHistories: MutableList<UserLoanHistory> = mutableListOf(),
