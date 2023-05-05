@@ -27,7 +27,7 @@ class UserService(
 
     @Transactional(readOnly = true)
     fun getUsers(): List<UserResponse> = userRepository.findAll()
-        .map(::UserResponse)
+        .map(UserResponse::of)
 
     @Transactional
     fun updateUserName(request: UserUpdateRequest) {
