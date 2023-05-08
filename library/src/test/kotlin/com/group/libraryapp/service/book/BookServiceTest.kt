@@ -32,7 +32,7 @@ class BookServiceTest @Autowired constructor(
     @Test
     fun `책 저장 테스트`() {
         // given
-        val request = BookRequest("코틀린 인 액션")
+        val request = BookRequest.fixture("코틀린 인 액션")
 
         // when
         bookService.saveBook(request)
@@ -46,7 +46,7 @@ class BookServiceTest @Autowired constructor(
     @Test
     fun `책 대여 성공 테스트 `() {
         // given
-        bookRepository.save(Book("코틀린 인 액션"))
+        bookRepository.save(Book.fixture("코틀린 인 액션"))
         val savedUser = userRepository.save(User("zayson", 29))
         val request = BookLoanRequest("zayson", "코틀린 인 액션")
 
@@ -63,7 +63,7 @@ class BookServiceTest @Autowired constructor(
     @Test
     fun `책이 이미 대여된 경우 테스트가 실패한다`() {
         // given
-        bookRepository.save(Book("코틀린 인 액션"))
+        bookRepository.save(Book.fixture("코틀린 인 액션"))
         val savedUser = userRepository.save(User("zayson", 29))
         userLoanHistoryRepository.save(UserLoanHistory(savedUser, "코틀린 인 액션", false))
         val request = BookLoanRequest("zayson", "코틀린 인 액션")
