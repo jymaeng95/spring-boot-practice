@@ -30,10 +30,11 @@ dependencies {
     runtimeOnly("com.h2database:h2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-    // Querydsl
-    implementation("com.querydsl:querydsl-jpa:$queryDslVersion")
-    kapt("com.querydsl:querydsl-apt:$queryDslVersion:jpa")
-    kapt("org.springframework.boot:spring-boot-configuration-processor")
+    // Querydsl Dependency 추가
+    implementation("com.querydsl:querydsl-jpa:$queryDslVersion:jakarta")
+
+    // annotationProcessor 대신 kapt사용
+    kapt("com.querydsl:querydsl-apt:$queryDslVersion:jakarta")
 }
 
 tasks.withType<KotlinCompile> {
