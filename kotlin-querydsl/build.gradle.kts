@@ -12,7 +12,7 @@ plugins {
 group = "com.zayson"
 version = "0.0.1-SNAPSHOT"
 
-val queryDslVersion = "5.0.0"
+val queryDslVersion = "5.0.0"  // Querydsl Version 명시
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
