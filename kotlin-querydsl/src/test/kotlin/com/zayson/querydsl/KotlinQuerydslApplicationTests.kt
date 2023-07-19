@@ -8,10 +8,12 @@ import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.annotation.Commit
 import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
-@Transactional
+@Transactional  // Test 끝나면 자동 롤백
+@Commit
 class KotlinQuerydslApplicationTests (
     @Autowired val em: EntityManager
 ){

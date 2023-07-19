@@ -27,7 +27,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    runtimeOnly("com.h2database:h2")
+    runtimeOnly("com.h2database:h2:1.4.200")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
     // Querydsl Dependency 추가
@@ -35,6 +35,9 @@ dependencies {
 
     // annotationProcessor 대신 kapt사용
     kapt("com.querydsl:querydsl-apt:$queryDslVersion:jakarta")
+
+    // p6spy
+    implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0")
 }
 
 tasks.withType<KotlinCompile> {

@@ -1,1 +1,16 @@
-
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/querydsl  # h2 database url
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create  # compile 후 테이블 남아있음
+    properties:
+      hibernate:
+#        show_sql: true
+        format_sql: true  # print로 출력
+logging.level:
+  org.hibernate.SQL: debug  # Logger 출력
+  org.hibernate.type: trace
