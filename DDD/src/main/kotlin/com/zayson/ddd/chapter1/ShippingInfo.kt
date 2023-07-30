@@ -1,11 +1,7 @@
 package com.zayson.ddd.chapter1
 
+// ShippingInfo를 VO로 변경해주는 것이 가독성 측면에서 좋음
 data class ShippingInfo (
-    private val receiverName: String,
-    private var receiverPhoneNumber: String,
-    private var shippingAddress1: String,
-    private var shippingAddress2: String,
-    private var shippingAddress3: String,
-){
-
-}
+    private val receiver: Receiver,
+    private val address: Address,
+)

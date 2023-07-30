@@ -4,11 +4,12 @@ import com.zayson.ddd.chapter1.OrderStateV2.*
 import java.lang.IllegalArgumentException
 
 // 실제 배송지 변경 로직과 배송지 변경 여부 로직이 함께 있음
-class OrderV2 (
-    private var orderLines: MutableList<OrderLine>,
-    private var shippingInfo: ShippingInfo
+data class OrderV2 (
+    val orderNumber: OrderNo,  // 엔티티를 구분할 수 있는 식별자
+    var orderLines: MutableList<OrderLine>,
+    var shippingInfo: ShippingInfo
 ){
-    private var orderState = PREPARING
+    private var orderState: OrderStateV2 = PREPARING
     private var totalAmounts: Int = 0  // 구매 상품 합계
 
     // init을 통해 Order 생성 후 초기화
@@ -33,7 +34,7 @@ class OrderV2 (
 
     //주문 총합 구하기
     private fun calculateTotalAmounts() {
-        totalAmounts = orderLines.map(OrderLine::amounts).sum()
+        totalAmounts = orderLines.map(OrderLine::amounts).sumOf { money -> money.value }
     }
 
     // 배송지 지정하기 (Nullable하지 않은 타입을 지정하므로 예외 처리 필요X)
