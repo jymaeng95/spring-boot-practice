@@ -5,6 +5,11 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.2"
 	kotlin("jvm") version "1.8.22"
 	kotlin("plugin.spring") version "1.8.22"
+	id("org.jetbrains.kotlin.plugin.allopen") version "1.8.22"
+}
+
+allOpen {
+	 annotations("org.springframework.transaction.annotation.Transactional")
 }
 
 group = "com.zayson"
@@ -23,6 +28,7 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	implementation("org.springframework.boot:spring-boot-starter-jdbc")
 }
 
 tasks.withType<KotlinCompile> {
