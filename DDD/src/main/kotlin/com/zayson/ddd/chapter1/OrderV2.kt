@@ -14,13 +14,13 @@ data class OrderV2 (
 
     // init을 통해 Order 생성 후 초기화
     init {
-        setOrderLines(orderLines)  // 주문라인 추가
-        setShippingInfo(shippingInfo)
+        updateOrderLines(orderLines)  // 주문라인 추가
+        updateShippingInfo(shippingInfo)
         calculateTotalAmounts()  // 주문 총합 구하기
     }
 
     // 요구사항) 최소 한 종류 이상의 상품을 주문해야 한다 == orderLines의 size는 1이상
-    private fun setOrderLines(orderLines: MutableList<OrderLine>) {
+    private fun updateOrderLines(orderLines: MutableList<OrderLine>) {
         verifyAtLeastOneOrMoreOrderLines(orderLines)  // 최소 한 종류 이상 담겼는지 검증
         this.orderLines = orderLines
     }
@@ -38,7 +38,7 @@ data class OrderV2 (
     }
 
     // 배송지 지정하기 (Nullable하지 않은 타입을 지정하므로 예외 처리 필요X)
-    private fun setShippingInfo(shippingInfo: ShippingInfo) {
+    private fun updateShippingInfo(shippingInfo: ShippingInfo) {
         this.shippingInfo = shippingInfo
     }
 
